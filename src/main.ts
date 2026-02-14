@@ -55,6 +55,7 @@ export default class NuGitPlugin extends Plugin {
     try {
       this.setStatus("pulling...");
       await this.git.pull();
+      new Notice("Nu Git: pulled");
     } catch {
       // pull失敗は無視（オフライン等）
     }
