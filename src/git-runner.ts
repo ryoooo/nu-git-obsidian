@@ -22,7 +22,7 @@ export class GitRunner {
             reject(error);
             return;
           }
-          resolve(typeof stdout === "string" ? stdout : stdout.toString());
+          resolve(String(stdout));
         },
       );
     });
