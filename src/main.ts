@@ -117,6 +117,7 @@ export default class NuGitPlugin extends Plugin {
       }
 
       this.setStatus("synced");
+      new Notice(`Nu Git: backed up (${status.changedCount} files)`);
     } catch (e) {
       this.setStatus("error");
       new Notice(`Nu Git: ${e instanceof Error ? e.message : String(e)}`);
