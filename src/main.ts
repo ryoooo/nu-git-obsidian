@@ -51,6 +51,14 @@ export default class NuGitPlugin extends Plugin {
     this.statusBarEl = this.addStatusBarItem();
     this.statusBarEl.addClass("nu-git-status");
     this.statusBarEl.onClickEvent(() => this.backupNow());
+    // 起動時に自動pull
+    try {
+      this.setStatus("pulling...");
+      await this.git.pull();
+    } catch {
+      // pull失敗は無視（オフライン等）
+    }
+
     await this.refreshStatus();
 
     // ファイル変更イベント
