@@ -46,4 +46,9 @@ export class GitRunner {
   async pull(): Promise<void> {
     await this.run("git pull");
   }
+
+  async repoRoot(): Promise<string> {
+    const output = await this.run("git rev-parse --show-toplevel");
+    return output.trim();
+  }
 }

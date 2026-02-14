@@ -28,17 +28,21 @@ export default class NuGitPlugin extends Plugin {
     this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData());
 
     const adapter = this.app.vault.adapter as any;
-    const basePath: string = adapter.getBasePath();
+    const vaultPath: string = adapter.getBasePath();
 
-    this.git = new GitRunner(basePath, this.settings.nuPath);
+    // Vault path から git repo root を発見する（Vaultがサブディレクトリの場合に対応）
+    const tempGit = new GitRunner(vaultPath, this.settings.nuPath);
+    const repoRoot = await tempGit.repoRoot();
+
+    this.git = new GitRunner(repoRoot, this.settings.nuPath);
 
     this.scheduler = new Scheduler(
       () => this.backup(),
       {
         debounceMs: this.settings.debounceSeconds * 1000,
         lockCheckFn: async () => {
-          cleanStaleLock(basePath, this.settings.staleLockThresholdMs);
-          return isLocked(basePath);
+          cleanStaleLock(repoRoot, this.settings.staleLockThresholdMs);
+          return isLocked(repoRoot);
         },
       },
     );
