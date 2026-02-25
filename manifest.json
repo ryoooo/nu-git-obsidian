@@ -1,7 +1,7 @@
 {
   "id": "nu-git",
   "name": "Nu Git",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "minAppVersion": "1.0.0",
   "description": "Simple git backup using nushell",
   "author": "ryoooo",

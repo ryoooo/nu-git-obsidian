@@ -1,6 +1,6 @@
 {
   "name": "obsidian-nu-git",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Simple git backup plugin for Obsidian using nushell",
   "main": "main.js",
   "scripts": {
