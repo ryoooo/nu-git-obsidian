@@ -1,12 +1,14 @@
 # deploy.nu - Build and deploy to Obsidian vault
-def main [vault_plugin_dir: string] {
+def main [dir?: string] {
+  let dir = if $dir != null { $dir } else { $env.NU_GIT_DEPLOY_DIR }
+
   print "Building..."
   pnpm build
 
-  print $"Deploying to ($vault_plugin_dir)..."
-  mkdir $vault_plugin_dir
-  cp main.js $vault_plugin_dir
-  cp manifest.json $vault_plugin_dir
+  print $"Deploying to ($dir)..."
+  mkdir $dir
+  cp main.js $dir
+  cp manifest.json $dir
 
   print "Done. Reload Obsidian to apply changes."
 }

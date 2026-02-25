@@ -1,12 +1,12 @@
 # Nu Git
 
-A simple Git auto-backup plugin for [Obsidian](https://obsidian.md/). Built as a lightweight alternative to [Obsidian Git](https://github.com/Vinzent03/obsidian-git), using [Nushell](https://www.nushell.sh/) instead of PowerShell for shell execution.
+A simple Git auto-backup plugin for [Obsidian](https://obsidian.md/). Executes git commands through [Nushell](https://www.nushell.sh/), inheriting your shell environment for authentication.
 
 ## Why?
 
-Obsidian Git is feature-rich but relies on PowerShell on Windows. If you use Nushell as your primary shell, this is inconvenient. Obsidian Git also suffers from frequent `index.lock` conflicts when auto-commit collides with manual git operations.
+[Obsidian Git](https://github.com/Vinzent03/obsidian-git) calls the `git` binary directly via `child_process.spawn()`. This means it inherits the Obsidian (Electron) process environment, not your shell environment. If your git authentication depends on tools initialized in your shell profile — such as `gh auth setup-git` via [mise](https://mise.jdx.dev/) in Nushell's `env.nu` — Obsidian Git cannot access those credentials when launched from the desktop.
 
-Nu Git solves both problems by executing git commands through Nushell and providing only the essentials: auto-backup with lock-aware scheduling.
+Nu Git runs all git commands through `nu -c "..."`, which loads your Nushell environment (including mise, credential helpers, SSH agent, etc.) on every invocation. It also provides `index.lock` conflict prevention and a minimal feature set focused on auto-backup.
 
 ## Features
 
@@ -24,7 +24,10 @@ Nu Git solves both problems by executing git commands through Nushell and provid
 
 ## Installation
 
-Install via [BRAT](https://github.com/TfTHacker/obsidian42-brat): add `ryoooo/nu-git-obsidian` as a beta plugin.
+1. Install [BRAT](https://github.com/TfTHacker/obsidian42-brat) from Community plugins if you haven't already
+2. Open Command Palette (`Ctrl/Cmd + P`) and run **BRAT: Add a beta plugin**
+3. Enter `ryoooo/nu-git-obsidian` and select Add Plugin
+4. Enable **Nu Git** in Settings → Community plugins
 
 ## Configuration
 
