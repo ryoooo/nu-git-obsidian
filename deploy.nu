@@ -1,7 +1,5 @@
 # deploy.nu - Build and deploy to Obsidian vault
-def main [] {
-  let vault_plugin_dir = "C:/Users/ryoki/Documents/Obsidian/ryoooo/.obsidian/plugins/nu-git"
-
+def main [vault_plugin_dir: string] {
   print "Building..."
   pnpm build
 
