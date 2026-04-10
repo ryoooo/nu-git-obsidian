@@ -1,4 +1,6 @@
 // src/main.ts
+import { existsSync } from "fs";
+import { isAbsolute } from "path";
 import { Notice, Plugin, TFile } from "obsidian";
 import { GitRunner } from "./git-runner";
 import { Scheduler } from "./scheduler";
@@ -26,6 +28,10 @@ export default class NuGitPlugin extends Plugin {
 
   async onload(): Promise<void> {
     this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData());
+    // Fallback to "nu" if saved nuPath is an absolute path that does not exist on this platform
+    if (isAbsolute(this.settings.nuPath) && !existsSync(this.settings.nuPath)) {
+      this.settings.nuPath = DEFAULT_SETTINGS.nuPath;
+    }
 
     const adapter = this.app.vault.adapter as any;
     const vaultPath: string = adapter.getBasePath();
